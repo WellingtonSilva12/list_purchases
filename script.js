@@ -14,6 +14,15 @@ const toggleAddItemForm = () => {
     blackBackdrop.classList.toggle('active');
 };
 
+const saveProductsToLocalStorage = (products) => {
+    localStorage.setItem('products', JSON.stringify(products));
+};
+
+const loadProductsFromLocalStorage = () => {
+    const savedProducts = localStorage.getItem('products');
+    return savedProducts ? JSON.parse(savedProducts) : [];
+};
+
 const addItemToList = (event) => {
     event.preventDefault(); 
 
@@ -44,6 +53,10 @@ const addItemToList = (event) => {
     productForm.reset();
     toggleAddItemForm();
 
+    const products = loadProductsFromLocalStorage();
+    products.push({ name: productName, value: productValue, quantity: productQuantity });
+    saveProductsToLocalStorage(products);
+
     const checkbox = productItem.querySelector('.product-checkbox');
     const removeBtn = productItem.querySelector('.remove-btn');
 
@@ -69,7 +82,49 @@ const removeItemFromList = (item) => {
     item.remove();
 };
 
+const displaySavedProducts = () => {
+    const products = loadProductsFromLocalStorage();
+    products.forEach(product => {
+        const productSubtotal = product.value * product.quantity;
 
+        const productItem = document.createElement('li');
+        productItem.classList.add('product-item');
+
+        productItem.innerHTML = `
+            <input type="checkbox" class="product-checkbox">
+            <span class="product-name">${product.name}</span> 
+            <span class="product-quantity">(${product.quantity}x)</span> 
+            <span class="product-subtotal">${productSubtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+            <button class="remove-btn">Apagar</button>
+        `;
+
+        productsList.appendChild(productItem);
+
+        const checkbox = productItem.querySelector('.product-checkbox');
+        const removeBtn = productItem.querySelector('.remove-btn');
+
+        checkbox.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                total += productSubtotal;
+            } else {
+                total -= productSubtotal;
+            }
+            totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        });
+
+        removeBtn.addEventListener('click', () => {
+            if (checkbox.checked) {
+                total -= productSubtotal;
+                totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+            removeItemFromList(productItem, product.name);
+        });
+    });
+};
+
+
+
+document.addEventListener('DOMContentLoaded', displaySavedProducts);
 addItemBtn.addEventListener('click', toggleAddItemForm);
 cancelBtn.addEventListener('click', toggleAddItemForm);
 blackBackdrop.addEventListener('click', toggleAddItemForm);
