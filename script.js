@@ -31,6 +31,51 @@ const removeItemFromList = (item, productName) => {
     saveProductsToLocalStorage(products);
 };
 
+const createProductElement = (product) => {
+    const productSubtotal = product.value * product.quantity;
+
+    const productItem = document.createElement('tr');
+    productItem.classList.add('product-item');
+    
+    productItem.innerHTML = `
+        <td><input type="checkbox" class="product-checkbox"></td>
+        <td class="product-name">${product.name}</td> 
+        <td class="product-quantity">${product.quantity}x</td> 
+        <td class="product-subtotal">${productSubtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+        <td><button class="remove-btn"><i class="fa-solid fa-trash"></i></button></td>
+    `;
+    
+    productsList.appendChild(productItem); // productsList deve ser um elemento <tbody>
+    
+
+    return productItem;
+};
+
+const addListenersToProductItem = (productItem, product) => {
+    const productSubtotal = product.value * product.quantity;
+    const checkbox = productItem.querySelector('.product-checkbox');
+    const removeBtn = productItem.querySelector('.remove-btn');
+
+    checkbox.addEventListener('change', (e) => {
+        const amount = e.target.checked ? productSubtotal : -productSubtotal;
+        updateTotal(amount);
+    });
+
+    removeBtn.addEventListener('click', () => {
+        if (checkbox.checked) {
+            updateTotal(-productSubtotal);
+        }
+        removeItemFromList(productItem, product.name);
+    });
+};
+
+const updateTotal = (amount) => {
+    total += amount;
+    totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+};
+
+
+
 const addItemToList = (event) => {
     event.preventDefault(); 
 
@@ -43,47 +88,25 @@ const addItemToList = (event) => {
         return;
     }
 
-    const productSubtotal = productValue * productQuantity;
+    const product = {
+        name: productName,
+        value: productValue,
+        quantity: productQuantity
+    };
 
-    const productItem = document.createElement('li');
-    productItem.classList.add('product-item');
-
-    productItem.innerHTML = `
-        <input type="checkbox" class="product-checkbox">
-        <span class="product-name">${productName}</span> 
-        <span class="product-quantity">(${productQuantity}x)</span> 
-        <span class="product-subtotal">R$ ${productSubtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-        <button class="remove-btn">Apagar</button>
-    `;
-
+    
+    const productItem = createProductElement(product)
     productsList.appendChild(productItem);
 
     productForm.reset();
     toggleAddItemForm();
 
     const products = loadProductsFromLocalStorage();
-    products.push({ name: productName, value: productValue, quantity: productQuantity });
+    products.push(product);
     saveProductsToLocalStorage(products);
 
-    const checkbox = productItem.querySelector('.product-checkbox');
-    const removeBtn = productItem.querySelector('.remove-btn');
+    addListenersToProductItem(productItem, product)
 
-    checkbox.addEventListener('change', (e)=> {
-        if (e.target.checked) {
-            total += productSubtotal;
-        } else {
-            total -= productSubtotal;
-        }
-        totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    });
-
-    removeBtn.addEventListener('click', () => {
-        if (checkbox.checked) {
-            total -= productSubtotal
-            totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        }
-        removeItemFromList(productItem, productName)
-    });
 };
 
 
@@ -91,40 +114,10 @@ const addItemToList = (event) => {
 const displaySavedProducts = () => {
     const products = loadProductsFromLocalStorage();
     products.forEach(product => {
-        const productSubtotal = product.value * product.quantity;
-
-        const productItem = document.createElement('li');
-        productItem.classList.add('product-item');
-
-        productItem.innerHTML = `
-            <input type="checkbox" class="product-checkbox">
-            <span class="product-name">${product.name}</span> 
-            <span class="product-quantity">(${product.quantity}x)</span> 
-            <span class="product-subtotal">${productSubtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-            <button class="remove-btn">Apagar</button>
-        `;
-
+        const productItem = createProductElement(product);
         productsList.appendChild(productItem);
 
-        const checkbox = productItem.querySelector('.product-checkbox');
-        const removeBtn = productItem.querySelector('.remove-btn');
-
-        checkbox.addEventListener('change', (e) => {
-            if (e.target.checked) {
-                total += productSubtotal;
-            } else {
-                total -= productSubtotal;
-            }
-            totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        });
-
-        removeBtn.addEventListener('click', () => {
-            if (checkbox.checked) {
-                total -= productSubtotal;
-                totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            }
-            removeItemFromList(productItem, product.name);
-        });
+        addListenersToProductItem(productItem, product)
     });
 };
 

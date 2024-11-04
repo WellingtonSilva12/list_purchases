@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@100..900&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +11,8 @@ body, html {
     height: 100%;
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
+    font-family: "Catamaran", sans-serif;
+
 }
 body {
     min-height: 100vh;
@@ -15,7 +20,6 @@ body {
     align-items: center;
     justify-content: center;
     color: #2e2e2e;
-    font-family: "Inter", sans-serif;
     background-color: #fff;
 }
 
@@ -45,7 +49,7 @@ body {
     top: 0;
     left:0;
     min-width: 150% ;
-    height: 10rem;
+    height: 15rem;
     z-index: -1;
 }
 
@@ -82,8 +86,8 @@ body {
 
 #product-list {
     position: absolute;
-    padding: 30px;
-    top: 15%;
+    padding: 10px 20px;
+    top: 20%;
     height: 100%;
     width: 100%;
     border-radius: 15px 15px 0 0;
@@ -98,8 +102,50 @@ body {
 
 li {
     list-style: none;
+    background-color: red;
+    margin: 5px 0;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.product-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.product-name {
+    text-align: left;
+}
+
+.product-quantity,
+.product-subtotal {
+    text-align: right;
+}
+
+.remove-btn {
+    padding: 5px 10px;
+    background-color: transparent;
+    color: #5886FE;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    color: #c0392b;
+}
 
 .add-item {
     background-color: #fff;
@@ -107,7 +153,8 @@ li {
     bottom: -100%;
     left: 0;
     width: 100%;
-    padding: 30px 30px;
+    height: 40%;
+    padding: 35px 15px 15px;
     border-radius: 12px 12px 0 0;
     transition: all 0.3s;
 }
@@ -140,29 +187,33 @@ li {
 .form-input {
     display: none;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Espaço entre os grupos */
+    gap: 10px; 
   }
 
   #product-name {
     width: 100%;
-    padding: 10px;
+    padding: 18px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
 
+  #product-name:focus-within, .form-row input:focus-within {
+    outline: 2px solid #5886FE;
+  }
+
   .form-row {
     display: flex;
-    gap: 10px; 
+    gap: 8px; 
   }
 
   .form-row input {
     width: 100%;
-    padding: 10px;
+    padding: 18px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -175,9 +226,14 @@ li {
   }
 
   .form-row-buttons button {
-    padding: 10px 15px;
+    padding: 12px 15px;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
+  }
+
+  .add-btn {
+    background-color: #5886FE;
+    color: #fff;
   }
