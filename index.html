@@ -7,8 +7,37 @@
     <title>listar compras</title>
 </head>
 <body>
-    <h1>App de lista de compras</h1>
-    
-    
+    <div class="wrapper">
+        <div class="screen-backdrop"></div>      
+        <div class="head-wrapper">
+            <div class="total">
+              <strong>Total</strong><span id="total-value">R$ 0.00</span>
+            </div>
+            <div id="add-item-btn">+</div>
+        </div>
+        <div id="product-list">
+            <h2>Minha Lista</h2>
+            <ul id="products">
+                <!-- Itens adicionados aparecerão aqui -->
+            </ul>
+        </div>
+
+        <div class="black-backdrop"></div>
+        <div class="add-item">
+            <form class="form-input" id="product-form">
+              <input type="text" id="product-name" placeholder="Produto" required>
+              <div class="form-row">
+                  <input type="number" id="product-value" min="0" step="0.01" placeholder="Valor" required>
+                  <input type="number" id="product-quantity" min="1" placeholder="Quant." required>
+              </div>
+              <div class="form-row-buttons">
+                  <button type="button" class="cancel-btn">Cancelar</button>
+                  <button type="submit" class="add-btn">Adicionar</button>
+              </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
