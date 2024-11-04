@@ -23,6 +23,14 @@ const loadProductsFromLocalStorage = () => {
     return savedProducts ? JSON.parse(savedProducts) : [];
 };
 
+const removeItemFromList = (item, productName) => {
+    item.remove();
+    
+    let products = loadProductsFromLocalStorage();
+    products = products.filter(product => product.name !== productName);
+    saveProductsToLocalStorage(products);
+};
+
 const addItemToList = (event) => {
     event.preventDefault(); 
 
@@ -74,13 +82,11 @@ const addItemToList = (event) => {
             total -= productSubtotal
             totalValue.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
-        removeItemFromList(productItem)
+        removeItemFromList(productItem, productName)
     });
 };
 
-const removeItemFromList = (item) => {
-    item.remove();
-};
+
 
 const displaySavedProducts = () => {
     const products = loadProductsFromLocalStorage();
