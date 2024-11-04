@@ -9,3 +9,175 @@ body, html {
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
 }
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2e2e2e;
+    font-family: "Inter", sans-serif;
+    background-color: #fff;
+}
+
+.wrapper {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width:768px) {
+    .wrapper {
+        position: relative;
+        height: 50rem;
+        width: 25rem;
+        border-radius: 40px;
+        border: 10px solid #2e2e2e;
+    }
+}
+
+.screen-backdrop {
+    background-color: #5886FE;
+    position: absolute;
+    top: 0;
+    left:0;
+    min-width: 150% ;
+    height: 10rem;
+    z-index: -1;
+}
+
+.head-wrapper {
+    padding: 10px 30px;
+    display: flex;
+    color: #fff;
+    /* font-size: 1.5rem; */
+}
+
+#add-item-btn {
+    background-color: white;
+    position: absolute;
+    right: 10%;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    /* color: #F4F4F4; */
+    color: #5886FE;
+    font-size: 1.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.total {
+    display: flex;
+    flex-direction: column;
+    letter-spacing: 1.1px;
+}
+.total span {
+ font-size:2rem;
+}
+
+#product-list {
+    position: absolute;
+    padding: 30px;
+    top: 15%;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    background-color: #fff;
+    box-shadow: 0px -1px 20px -3px rgba(0,0,0,0.2);
+}
+
+#product-list h2 {
+    font-size: 1.4rem;
+    color: #5886FE;
+}
+
+li {
+    list-style: none;
+}
+
+
+.add-item {
+    background-color: #fff;
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    padding: 30px 30px;
+    border-radius: 12px 12px 0 0;
+    transition: all 0.3s;
+}
+
+.add-item.active {
+    bottom: 0;
+}
+.show {
+    display: block;
+}
+
+.black-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background-color: #00000030;
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.black-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.form-input {
+    display: none;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaço entre os grupos */
+  }
+
+  #product-name {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 10px; 
+  }
+
+  .form-row input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-row-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Espaço entre os botões */
+  }
+
+  .form-row-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
